@@ -26,22 +26,18 @@ struct YearResultsView: View {
       case .rating: return "star"
       }
     }
+
+    var apiValue: String {
+      switch self {
+      case .defaults, .popularity: return "popularity.desc"
+      case .name: return "original_title.asc"
+      case .releaseDate: return "primary_release_date.desc"
+      case .rating: return "vote_average.desc"
+      }
+    }
   }
 
   @State private var selectedSort: SortOption = .defaults
-
-  var sortedTitles: [Title] {
-    switch selectedSort {
-    case .defaults, .popularity:
-      return titles // Trust API order (popularity.desc) to prevent jumping during scroll
-    case .name:
-      return titles.sorted { ($0.title ?? $0.name ?? "") < ($1.title ?? $1.name ?? "") }
-    case .releaseDate:
-      return titles.sorted { ($0.releaseDate ?? "") > ($1.releaseDate ?? "") }
-    case .rating:
-      return titles.sorted { ($0.voteAverage ?? 0) > ($1.voteAverage ?? 0) }
-    }
-  }
 
   // ... (existing properties)
 
@@ -81,7 +77,7 @@ struct YearResultsView: View {
             let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 3)
             LazyVGrid(columns: columns, spacing: 12) {
               // Filter out titles without posters
-              ForEach(sortedTitles.filter { $0.posterPath != nil && !$0.posterPath!.isEmpty }) {
+              ForEach(titles.filter { $0.posterPath != nil && !$0.posterPath!.isEmpty }) {
                 title in
                 let sourceID = "yearResult_\(title.id ?? 0)"
                 PosterCard(
@@ -94,7 +90,7 @@ struct YearResultsView: View {
                   selectedTitle = title
                 }
                 .onAppear {
-                  if title.id == sortedTitles.last?.id && hasMorePages && !isFetchingMore {
+                  if title.id == titles.last?.id && hasMorePages && !isFetchingMore {
                     Task {
                       await loadMoreContent()
                     }
@@ -149,11 +145,17 @@ struct YearResultsView: View {
     .onChange(of: selectedSort) { _, _ in
       let impact = UIImpactFeedbackGenerator(style: .light)
       impact.impactOccurred()
+      titles = []
+      currentPage = 1
+      hasMorePages = true
+      isFetchingMore = false
+      fetchTitles()
     }
     .onChange(of: isMovies) { _, _ in
       titles = []
       currentPage = 1
       hasMorePages = true
+      isFetchingMore = false
       fetchTitles()
     }
     .task {
@@ -176,14 +178,19 @@ struct YearResultsView: View {
     guard !isFetchingMore else { return }
     isFetchingMore = true
 
+    // For rating sort, require minimum votes to avoid spam
+    let minVotes: Int? = selectedSort == .rating ? 200 : nil
+
     do {
       let fetched: [Title]
       if let year = year {
         fetched = try await dataFetcher.fetchTitles(
-          for: isMovies ? "movie" : "tv", by: "discover", year: year, page: currentPage)
+          for: isMovies ? "movie" : "tv", by: "discover", year: year,
+          voteCountMin: minVotes, sortBy: selectedSort.apiValue, page: currentPage)
       } else {
         fetched = try await dataFetcher.fetchTitles(
-          for: isMovies ? "movie" : "tv", by: "popular", page: currentPage)
+          for: isMovies ? "movie" : "tv", by: "discover",
+          voteCountMin: minVotes, sortBy: selectedSort.apiValue, page: currentPage)
       }
       
       let newTitles = fetched.filter { ($0.voteAverage ?? 0) < 10.0 && $0.posterPath != nil && !$0.posterPath!.isEmpty }

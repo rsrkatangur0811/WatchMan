@@ -22,21 +22,29 @@ struct PosterCard: View {
         .if(width == nil || height == nil) { view in
           view.scaledToFit()
         }
-        .clipShape(RoundedRectangle(cornerRadius: 15))
-        .if(showBorder) { view in
-          view.overlay(
-            RoundedRectangle(cornerRadius: 15)
-              .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
-          )
-        }
+        .clipShape(RoundedRectangle(cornerRadius: 22))
+        .overlay(
+          RoundedRectangle(cornerRadius: 22)
+            .strokeBorder(
+              LinearGradient(
+                colors: [
+                  .white.opacity(0.5),
+                  .white.opacity(0.1),
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+              ),
+              lineWidth: 1.5
+            )
+        )
     } placeholder: {
-      RoundedRectangle(cornerRadius: 15)
+      RoundedRectangle(cornerRadius: 22)
         .fill(Color.gray.opacity(0.3))
         .frame(width: width, height: height)
     }
     .if(namespace != nil && sourceID != nil) { view in
       view.matchedTransitionSource(id: sourceID!, in: namespace!) { config in
-        config.clipShape(RoundedRectangle(cornerRadius: 15))
+        config.clipShape(RoundedRectangle(cornerRadius: 22))
       }
     }
   }

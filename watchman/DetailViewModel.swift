@@ -36,6 +36,17 @@ class DetailViewModel {
     self.title = title
   }
 
+  var isReleased: Bool {
+    guard let releaseDate = title.releaseDate else { return true } // Assume released if no date? Or unreleased? 
+    // Usually API returns future dates for upcoming. Missing date often means old/unknown.
+    // Let's assume true if missing, but check date if present.
+    
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+    guard let date = formatter.date(from: releaseDate) else { return true }
+    return date <= Date()
+  }
+
   // Internal storage for base series cast
   private var seriesCast: [Cast] = []
 

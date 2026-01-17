@@ -470,6 +470,7 @@ class ViewModel {
       let releaseDateGte: String?
       let releaseDateLte: String?
       let runtimeLte: Int?
+      let maxSeasons: Int?
       let isMovieOnly: Bool
       let isTVOnly: Bool
     }
@@ -480,65 +481,65 @@ class ViewModel {
         title: "Festival Favorites", subtitle: "Hidden gems from film festivals",
         keywords: "207474", genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: true, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: true, isTVOnly: false),
       CategoryConfig(
         title: "Cult Classics", subtitle: "Fan-favorite oddballs",
         keywords: "15060", genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: true, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: true, isTVOnly: false),
       CategoryConfig(
         title: "Feel-Good Movies", subtitle: "Heartwarming comfort watches",
         keywords: "9799", genres: "35,10749", excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: 6.5, voteCount: 100, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: true, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: true, isTVOnly: false),
       CategoryConfig(
         title: "Slow Burn Thrillers", subtitle: "Tension that builds gradually",
         keywords: "207265", genres: "53", excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: true, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: true, isTVOnly: false),
       CategoryConfig(
         title: "Short & Sweet", subtitle: "Under 100 minutes",
         keywords: nil, genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: 6.5, voteCount: 500, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: 100, isMovieOnly: true, isTVOnly: false),
+        runtimeLte: 100, maxSeasons: nil, isMovieOnly: true, isTVOnly: false),
       CategoryConfig(
         title: "Critics' Darlings", subtitle: "High rating, lower popularity",
         keywords: nil, genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: 7.5, voteCount: 50, voteCountMax: 500, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: true, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: true, isTVOnly: false),
       CategoryConfig(
         title: "90s Nostalgia", subtitle: "Released between 1990–1999",
         keywords: nil, genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: 6.5, voteCount: 500, voteCountMax: nil, releaseDateGte: "1990-01-01",
         releaseDateLte: "1999-12-31",
-        runtimeLte: nil, isMovieOnly: true, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: true, isTVOnly: false),
       CategoryConfig(
         title: "2000s Throwback", subtitle: "Released between 2000–2009",
         keywords: nil, genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: 6.5, voteCount: 500, voteCountMax: nil, releaseDateGte: "2000-01-01",
         releaseDateLte: "2009-12-31",
-        runtimeLte: nil, isMovieOnly: true, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: true, isTVOnly: false),
       CategoryConfig(
         title: "Family Time", subtitle: "Family-friendly picks",
         keywords: nil, genres: "10751", excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: 6.0, voteCount: 100, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: true, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: true, isTVOnly: false),
       CategoryConfig(
         title: "Mind-Bending", subtitle: "Twisty, high-concept stories",
         keywords: "310", genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: true, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: true, isTVOnly: false),
       CategoryConfig(
         title: "Underrated Gems", subtitle: "Decent rating with low vote count",
         keywords: nil, genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: 6.5, voteCount: 50, voteCountMax: 1000, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: true, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: true, isTVOnly: false),
       CategoryConfig(
         title: "International Hits", subtitle: "High-rated non-English titles",
         keywords: nil, genres: nil, excludeGenres: nil, language: "fr|de|es|it|pt|ja|ko|zh|hi",
         originCountry: nil,
         voteAvg: 7.0, voteCount: 500, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: true, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: true, isTVOnly: false),
     ]
 
     // TV-specific sections
@@ -547,57 +548,57 @@ class ViewModel {
         title: "Comfort Binge", subtitle: "Easy-to-watch episodic shows",
         keywords: "288414", genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: true),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: true),
       CategoryConfig(
         title: "Mini-Series Spotlight", subtitle: "Limited series only",
         keywords: "10714", genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: true),
+        runtimeLte: nil, maxSeasons: 1, isMovieOnly: false, isTVOnly: true),
       CategoryConfig(
         title: "Underrated Series", subtitle: "High rating, low popularity",
         keywords: nil, genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: 7.5, voteCount: 50, voteCountMax: 500, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: true),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: true),
       CategoryConfig(
         title: "Slow Burn Series", subtitle: "Long-form, serialized storytelling",
         keywords: "207265", genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: true),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: true),
       CategoryConfig(
         title: "Feel-Good TV", subtitle: "Lighthearted, uplifting shows",
         keywords: "9799", genres: "35", excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: 6.5, voteCount: 100, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: true),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: true),
       CategoryConfig(
         title: "Crime & Mystery", subtitle: "Detective and investigation series",
         keywords: nil, genres: "80,9648", excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: nil, voteCount: 100, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: true),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: true),
       CategoryConfig(
         title: "K-Drama Corner", subtitle: "Korean dramas",
         keywords: nil, genres: nil, excludeGenres: nil, language: "ko", originCountry: "KR",
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: true),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: true),
       CategoryConfig(
         title: "Sitcom Classics", subtitle: "Comedy shows with many seasons",
         keywords: nil, genres: "35", excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: 7.0, voteCount: 500, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: true),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: true),
       CategoryConfig(
         title: "Docu-Series", subtitle: "Non-fiction and true-story series",
         keywords: nil, genres: "99", excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: nil, voteCount: 50, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: true),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: true),
       CategoryConfig(
         title: "Family Watchlist", subtitle: "Family-appropriate series",
         keywords: nil, genres: "10751", excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: 6.0, voteCount: 100, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: true),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: true),
       CategoryConfig(
         title: "Hidden Gems", subtitle: "Vote count floor + mid popularity",
         keywords: nil, genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: 7.0, voteCount: 100, voteCountMax: 1000, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: true),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: true),
     ]
 
     // Shared sections (appear in both Movies and Shows)
@@ -607,42 +608,42 @@ class ViewModel {
         keywords: nil, genres: nil, excludeGenres: nil, language: "ja|ko|zh|hi|th",
         originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: false),
       CategoryConfig(
         title: "Anime", subtitle: "Japanese Animation",
         keywords: nil, genres: "16", excludeGenres: nil, language: "ja", originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: false),
       CategoryConfig(
         title: "Superhero", subtitle: "Heroes and Villains",
         keywords: "9715", genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: false),
       CategoryConfig(
         title: "Adult Animation", subtitle: "Not for kids",
         keywords: nil, genres: "16", excludeGenres: "10751", language: nil, originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: false),
       CategoryConfig(
         title: "Award Winning", subtitle: "Critically Acclaimed",
         keywords: nil, genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: 8.0, voteCount: 1000, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: false),
       CategoryConfig(
         title: "Real Life", subtitle: "Based on true stories",
         keywords: "9672", genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: false),
       CategoryConfig(
         title: "Blockbuster", subtitle: "Big budget hits",
         keywords: "187056", genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: false),
       CategoryConfig(
         title: "Biographical", subtitle: "Life stories",
         keywords: "6092", genres: nil, excludeGenres: nil, language: nil, originCountry: nil,
         voteAvg: nil, voteCount: nil, voteCountMax: nil, releaseDateGte: nil, releaseDateLte: nil,
-        runtimeLte: nil, isMovieOnly: false, isTVOnly: false),
+        runtimeLte: nil, maxSeasons: nil, isMovieOnly: false, isTVOnly: false),
     ]
 
     // Helper function to fetch a category
@@ -663,9 +664,67 @@ class ViewModel {
           releaseDateLte: config.releaseDateLte,
           runtimeLte: config.runtimeLte
         )
-        if !titles.isEmpty {
+        var filteredTitles = titles
+          
+        // Post-fetch filtering for season count
+        if let maxSeasons = config.maxSeasons {
+            var validTitles: [Title] = []
+            var knownTitles: [Title] = []
+            var titlesToVerify: [Title] = []
+            
+            // 1. Separate known vs unknown
+            for title in titles {
+                if let seasons = title.numberOfSeasons {
+                    if seasons <= maxSeasons {
+                        knownTitles.append(title)
+                    }
+                } else {
+                    titlesToVerify.append(title)
+                }
+            }
+            
+            validTitles.append(contentsOf: knownTitles)
+            
+            // 2. Fetch details for unknown titles
+            // We use a task group to fetch details concurrently. 
+            // We only return the NEW details object if valid.
+            if !titlesToVerify.isEmpty {
+                let verifiedTitles = await withTaskGroup(of: Title?.self) { group in
+                    for title in titlesToVerify {
+                        // Extract ID on current actor to avoid capturing SwiftData object 'title' in closure
+                        guard let id = title.id else { continue }
+                        
+                        group.addTask {
+                            // Now we only use 'id' (Int), which is Sendable
+                            do {
+                                let details = try await self.dataFetcher.fetchTitleDetails(for: media, id: id)
+                                if let s = details.numberOfSeasons, s <= maxSeasons {
+                                    return details
+                                }
+                            } catch {
+                                // Ignore failure
+                            }
+                            return nil
+                        }
+                    }
+                    
+                    var results: [Title] = []
+                    for await result in group {
+                        if let valid = result {
+                            results.append(valid)
+                        }
+                    }
+                    return results
+                }
+                validTitles.append(contentsOf: verifiedTitles)
+            }
+            
+            filteredTitles = validTitles
+        }
+
+        if !filteredTitles.isEmpty {
           return CategorySection(
-            title: config.title, subtitle: config.subtitle, items: self.filterTitles(titles))
+            title: config.title, subtitle: config.subtitle, items: self.filterTitles(filteredTitles))
         }
       } catch {
         print("Failed to fetch \\(media) category \\(config.title): \\(error)")

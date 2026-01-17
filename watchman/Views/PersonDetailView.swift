@@ -53,13 +53,28 @@ struct PersonDetailView: View {
 
     switch selectedSort {
     case .defaults, .popularity:
-      return filtered.sorted { ($0.voteCount ?? 0) > ($1.voteCount ?? 0) } // Default to popularity as well for consistency
+      return filtered.sorted {
+        if ($0.voteCount ?? 0) == ($1.voteCount ?? 0) {
+           return ($0.id ?? 0) < ($1.id ?? 0)
+        }
+        return ($0.voteCount ?? 0) > ($1.voteCount ?? 0)
+      }
     case .name:
       return filtered.sorted { ($0.title ?? $0.name ?? "") < ($1.title ?? $1.name ?? "") }
     case .releaseDate:
-      return filtered.sorted { ($0.releaseDate ?? "") > ($1.releaseDate ?? "") }
+      return filtered.sorted {
+        if ($0.releaseDate ?? "") == ($1.releaseDate ?? "") {
+             return ($0.id ?? 0) < ($1.id ?? 0)
+        }
+        return ($0.releaseDate ?? "") > ($1.releaseDate ?? "")
+      }
     case .rating:
-      return filtered.sorted { ($0.voteAverage ?? 0) > ($1.voteAverage ?? 0) }
+      return filtered.sorted {
+        if ($0.voteAverage ?? 0) == ($1.voteAverage ?? 0) {
+             return ($0.id ?? 0) < ($1.id ?? 0)
+        }
+        return ($0.voteAverage ?? 0) > ($1.voteAverage ?? 0)
+      }
     }
   }
 

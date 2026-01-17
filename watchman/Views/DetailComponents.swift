@@ -118,11 +118,25 @@ struct SmallTitleCard: View {
           .resizable()
           .aspectRatio(contentMode: .fill)
       } placeholder: {
-        Color.gray.opacity(0.3)
+        RoundedRectangle(cornerRadius: 22)
+          .fill(Color.gray.opacity(0.3))
       }
       .frame(width: 120, height: 180)
-      .cornerRadius(8)
-      .clipped()
+      .clipShape(RoundedRectangle(cornerRadius: 22))
+      .overlay(
+        RoundedRectangle(cornerRadius: 22)
+          .strokeBorder(
+            LinearGradient(
+              colors: [
+                .white.opacity(0.5),
+                .white.opacity(0.1),
+              ],
+              startPoint: .topLeading,
+              endPoint: .bottomTrailing
+            ),
+            lineWidth: 1.5
+          )
+      )
 
       Text(title.name ?? title.title ?? "Unknown")
         .font(.caption)

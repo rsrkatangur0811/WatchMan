@@ -210,10 +210,24 @@ struct TitleDetailView: View {
                         .resizable()
                         .scaledToFill()
                         .frame(width: 120, height: 180)
-                        .cornerRadius(8)
+                        .clipShape(RoundedRectangle(cornerRadius: 22))
+                        .overlay(
+                          RoundedRectangle(cornerRadius: 22)
+                            .strokeBorder(
+                              LinearGradient(
+                                colors: [
+                                  .white.opacity(0.5),
+                                  .white.opacity(0.1),
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                              ),
+                              lineWidth: 1.5
+                            )
+                        )
                         .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 5)
                     } placeholder: {
-                      Rectangle()
+                      RoundedRectangle(cornerRadius: 22)
                         .fill(Color.gray.opacity(0.3))
                         .frame(width: 120, height: 180)
                     }
@@ -255,43 +269,66 @@ struct TitleDetailView: View {
                   .buttonStyle(.plain)
 
                   // Watched Button
-                  Button {
-                    let isTVShow = viewModel.title.name != nil
+                  if viewModel.isReleased {
+                    Button {
+                      let isTVShow = viewModel.title.name != nil
 
-                    if isTVShow && !isWatched {
-                      // For TV shows, show confirmation dialog
-                      let impact = UIImpactFeedbackGenerator(style: .light)
-                      impact.impactOccurred()
-                      showMarkAllAlert = true
-                    } else {
-                      // For movies or un-watching, direct toggle
-                      let impact = UIImpactFeedbackGenerator(style: .medium)
-                      impact.impactOccurred()
-                      withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                        isWatched.toggle()
-                        UserLibraryManager.shared.toggleWatched(for: viewModel.title)
+                      if isTVShow && !isWatched {
+                        // For TV shows, show confirmation dialog
+                        let impact = UIImpactFeedbackGenerator(style: .light)
+                        impact.impactOccurred()
+                        showMarkAllAlert = true
+                      } else {
+                        // For movies or un-watching, direct toggle
+                        let impact = UIImpactFeedbackGenerator(style: .medium)
+                        impact.impactOccurred()
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                          isWatched.toggle()
+                          UserLibraryManager.shared.toggleWatched(for: viewModel.title)
 
-                        if isWatched {
-                          isInWatchlist = false
+                          if isWatched {
+                            isInWatchlist = false
+                          }
                         }
                       }
+                    } label: {
+                      HStack(spacing: 8) {
+                        Image(systemName: isWatched ? "checkmark" : "eye")
+                          .font(.system(size: 18, weight: .medium))
+                        Text(isWatched ? "Watched" : "Watch")
+                          .font(.netflixSans(.medium, size: 16))
+                      }
+                      .frame(maxWidth: .infinity)
+                      .frame(height: 52)
+                      .background(
+                        isWatched
+                          ? Color(red: 0.0, green: 0.68, blue: 1.0) : Color.white.opacity(0.1)
+                      )
+                      .foregroundStyle(.white)
+                      .clipShape(Capsule())
                     }
-                  } label: {
-                    HStack(spacing: 8) {
-                      Image(systemName: isWatched ? "checkmark" : "eye")
-                        .font(.system(size: 18, weight: .medium))
-                      Text(isWatched ? "Watched" : "Watch")
-                        .font(.netflixSans(.medium, size: 16))
+                    .buttonStyle(.plain)
+                  } else {
+                    // Unreleased Button
+                    Button {} label: {
+                      HStack(spacing: 8) {
+                        Image(systemName: "lock.fill")
+                          .font(.system(size: 18, weight: .medium))
+                        Text("Unreleased")
+                          .font(.netflixSans(.medium, size: 16))
+                      }
+                      .frame(maxWidth: .infinity)
+                      .frame(height: 52)
+                      .background(Color.white.opacity(0.05))
+                      .foregroundStyle(.gray)
+                      .clipShape(Capsule())
+                      .overlay(
+                        Capsule().strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                      )
                     }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 52)
-                    .background(
-                      isWatched ? Color(red: 0.0, green: 0.68, blue: 1.0) : Color.white.opacity(0.1)
-                    )
-                    .foregroundStyle(.white)
-                    .clipShape(Capsule())
+                    .buttonStyle(.plain)
+                    .disabled(true)
                   }
-                  .buttonStyle(.plain)
                 }
 
                 Text(viewModel.title.overview ?? "")
@@ -572,55 +609,78 @@ struct TitleDetailView: View {
 
                   ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack(alignment: .top, spacing: 12) {
-                      // Directors first (with white outline)
+                      // Directors first
                       ForEach(viewModel.crew.filter { $0.job == "Director" }) { crew in
                         NavigationLink(
                           destination: PersonDetailView(
                             personId: crew.id, name: crew.name, profileURL: crew.profileURL)
                         ) {
-                          VStack {
+                          VStack(spacing: 6) {
                             AsyncImage(url: crew.profileURL) { image in
-                              image.resizable().aspectRatio(contentMode: .fill)
+                              image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
                             } placeholder: {
-                              ZStack {
-                                Color.gray.opacity(0.3)
-                                Image(systemName: "person.fill")
-                                  .font(.title)
-                                  .foregroundStyle(.white.opacity(0.5))
-                              }
+                              Color.gray.opacity(0.3)
                             }
                             .frame(width: 80, height: 120)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .overlay(
-                              RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color.white, lineWidth: 1)
-                            )
+                            .clipShape(Capsule())
+                            .overlay(Capsule().stroke(Color.white.opacity(0.2), lineWidth: 1))
 
-                            Text(crew.name)
-                              .font(.caption)
-                              .fontWeight(.medium)
-                              .foregroundStyle(.white)
-                              .multilineTextAlignment(.center)
-                              .lineLimit(2)
-                              .frame(width: 90, height: 32, alignment: .center)
-
-                            Text("Director")
-                              .font(.caption2)
-                              .foregroundStyle(.white)
-                              .lineLimit(1)
-                              .frame(width: 90)
+                            VStack(spacing: 2) {
+                              Text(crew.name)
+                                .font(.caption)
+                                .fontWeight(.medium)
+                                .foregroundStyle(.white)
+                                .lineLimit(1)
+                                .frame(width: 80)
+                              
+                              Text("Director")
+                                .font(.caption2)
+                                .foregroundStyle(.white.opacity(0.7))
+                                .lineLimit(1)
+                                .frame(width: 80)
+                            }
                           }
                         }
                         .buttonStyle(.plain)
                       }
 
-                      // Then cast members (lazy loaded)
-                      ForEach(Array(viewModel.cast.enumerated()), id: \.offset) { _, cast in
+                      // Then cast members
+                      ForEach(Array(viewModel.cast.prefix(20).enumerated()), id: \.offset) { _, cast in
                         NavigationLink(
                           destination: PersonDetailView(
                             personId: cast.id, name: cast.name, profileURL: cast.profileURL)
                         ) {
-                          CircularProfileView(cast: cast)
+                          VStack(spacing: 6) {
+                            AsyncImage(url: cast.profileURL) { image in
+                              image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                            } placeholder: {
+                              Color.gray.opacity(0.3)
+                            }
+                            .frame(width: 80, height: 120)
+                            .clipShape(Capsule())
+                            .overlay(Capsule().stroke(Color.white.opacity(0.2), lineWidth: 1))
+
+                            VStack(spacing: 2) {
+                              Text(cast.name)
+                                .font(.caption)
+                                .fontWeight(.medium)
+                                .foregroundStyle(.white)
+                                .lineLimit(1)
+                                .frame(width: 80)
+                              
+                              if let character = cast.character, !character.isEmpty {
+                                Text(character)
+                                  .font(.caption2)
+                                  .foregroundStyle(.white.opacity(0.7))
+                                  .lineLimit(1)
+                                  .frame(width: 80)
+                              }
+                            }
+                          }
                         }
                         .buttonStyle(.plain)
                       }
@@ -978,15 +1038,17 @@ struct TitleDetailView: View {
   }
   @ViewBuilder
   private var ratingPillOverlay: some View {
-    FloatingRatingPill(rating: $userRating) { newRating in
-      userRating = newRating
-      UserLibraryManager.shared.setRating(for: viewModel.title, rating: newRating)
+    if viewModel.isReleased {
+      FloatingRatingPill(rating: $userRating) { newRating in
+        userRating = newRating
+        UserLibraryManager.shared.setRating(for: viewModel.title, rating: newRating)
 
-      // Rating implies usage, so mark as watched and remove from watchlist
-      if let r = newRating, r > 0 {
-        withAnimation {
-          isWatched = true
-          isInWatchlist = false
+        // Rating implies usage, so mark as watched and remove from watchlist
+        if let r = newRating, r > 0 {
+          withAnimation {
+            isWatched = true
+            isInWatchlist = false
+          }
         }
       }
     }

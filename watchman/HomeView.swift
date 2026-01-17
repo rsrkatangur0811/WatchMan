@@ -20,7 +20,7 @@ struct HomeView: View {
   @State private var showCategoryMenu: Bool = false
   
   // Search state
-  @State private var isSearchActive: Bool = false
+  @Binding var isSearchActive: Bool
   @State private var searchText: String = ""
   @State private var isSearching: Bool = false // Add loading state
   @State private var showSearchTopBlur: Bool = false // Scroll state for search header
@@ -199,16 +199,7 @@ struct HomeView: View {
           .zIndex(100)
         }
         
-        // Optimized Search Results Overlay
-        if isSearchActive {
-          SearchResultsView(
-            isSearchActive: $isSearchActive,
-            animation: animation,
-            heroNamespace: heroTransition
-          )
-            .transition(.opacity)
-            .zIndex(50)
-        }
+
       }
       .navigationDestination(item: $selectedTitle) { title in
         TitleDetailView(title: title)
@@ -1024,15 +1015,15 @@ struct HomeView: View {
               } placeholder: {
                 Color.gray.opacity(0.3)
               }
-              .frame(width: 80, height: 80)
-              .clipShape(Circle())
-              .overlay(Circle().stroke(Color.white.opacity(0.2), lineWidth: 1))
+              .frame(width: 80, height: 120)
+              .clipShape(Capsule())
+              .overlay(Capsule().stroke(Color.white.opacity(0.2), lineWidth: 1))
 
               Text(person.name)
                 .font(.caption)
                 .foregroundStyle(.white)
                 .lineLimit(1)
-                .frame(width: 90)
+                .frame(width: 80)
             }
           }
           .buttonStyle(.plain)
@@ -1056,99 +1047,6 @@ struct HomeView: View {
         }
         
         Spacer()
-        
-        // Search button/bar
-        if isSearchActive {
-          // Expanded search bar
-          HStack(spacing: 12) {
-            // Close button
-            Button(action: {
-              let generator = UIImpactFeedbackGenerator(style: .light)
-              generator.impactOccurred()
-              withAnimation(.snappy) {
-                isSearchActive = false
-                searchText = ""
-                searchViewModel.clearResults()
-                isSearchFieldFocused = false
-              }
-            }) {
-              Image(systemName: "xmark")
-                .font(.netflixSans(.medium, size: 15))
-                .padding(11)
-                .background(Color.clear)
-                .clipShape(Circle())
-                .overlay(
-                  Circle().strokeBorder(Color.white.opacity(0.6), lineWidth: 0.6)
-                )
-            }
-            .foregroundStyle(.white)
-            .transition(.scale.combined(with: .opacity))
-            
-            // Search text field
-            HStack(spacing: 8) {
-              Image(systemName: "magnifyingglass")
-                .font(.system(size: 16, weight: .medium))
-                .foregroundStyle(.white.opacity(0.6))
-              
-              TextField("Search movies, shows...", text: $searchText)
-                .font(.netflixSans(.medium, size: 16))
-                .foregroundStyle(.white)
-                .focused($isSearchFieldFocused)
-                .autocorrectionDisabled()
-                .textInputAutocapitalization(.never)
-              
-              if !searchText.isEmpty {
-                Button(action: {
-                  let generator = UIImpactFeedbackGenerator(style: .light)
-                  generator.impactOccurred()
-                  searchText = ""
-                  searchViewModel.clearResults()
-                }) {
-                  Image(systemName: "xmark.circle.fill")
-                    .font(.system(size: 16))
-                    .foregroundStyle(.white.opacity(0.5))
-                }
-              }
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(Color.white.opacity(0.15))
-            .clipShape(Capsule())
-            .overlay(
-              Capsule().strokeBorder(Color.white.opacity(0.4), lineWidth: 0.6)
-            )
-            .matchedGeometryEffect(id: "SearchBar", in: animation)
-          }
-          .transition(.asymmetric(
-            insertion: .opacity.combined(with: .scale(scale: 0.95)),
-            removal: .opacity.combined(with: .scale(scale: 0.95))
-          ))
-        } else {
-          // Collapsed search icon
-          Button(action: {
-            withAnimation(.snappy) {
-              isSearchActive = true
-              DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                isSearchFieldFocused = true
-              }
-            }
-          }) {
-            Image(systemName: "magnifyingglass")
-              .font(.system(size: 16, weight: .medium))
-              .padding(12)
-              .background(Color.clear)
-              .clipShape(Circle())
-              .overlay(
-                Circle().strokeBorder(Color.white.opacity(0.6), lineWidth: 0.6)
-              )
-          }
-          .foregroundStyle(.white)
-          .matchedGeometryEffect(id: "SearchBar", in: animation)
-          .transition(.asymmetric(
-            insertion: .opacity.combined(with: .scale(scale: 0.95)),
-            removal: .opacity.combined(with: .scale(scale: 0.95))
-          ))
-        }
       }
       .padding(.horizontal)
 
@@ -1530,7 +1428,7 @@ struct HomeView: View {
 
 #Preview {
   if #available(iOS 26.0, *) {
-    HomeView()
+    HomeView(isSearchActive: .constant(false))
   } else {
     Text("Requires iOS 26.0+")
   }

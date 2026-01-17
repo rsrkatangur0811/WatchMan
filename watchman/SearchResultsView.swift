@@ -62,13 +62,10 @@ struct SearchResultsView: View {
                 })
                 Divider().background(Color.white.opacity(0.2))
                 
-                NavigationLink(
-                  destination: BrowsingView(
-                    title: "Popular Movies", endpoint: "popular",
-                    mediaType: "movie")
-                ) {
+                // Most Anticipated
+                NavigationLink(destination: MostAnticipatedView()) {
                   HStack {
-                    Text("Popular Movies")
+                    Text("Most Anticipated")
                       .foregroundStyle(.white)
                       .font(.netflixSans(.medium, size: 17))
                     Spacer()
@@ -83,14 +80,12 @@ struct SearchResultsView: View {
                   impact.impactOccurred()
                 })
                 Divider().background(Color.white.opacity(0.2))
+
                 
-                NavigationLink(
-                  destination: BrowsingView(
-                    title: "Popular Shows", endpoint: "popular",
-                    mediaType: "tv")
-                ) {
+                // Highest Rated
+                NavigationLink(destination: HighestRatedView()) {
                   HStack {
-                    Text("Popular Shows")
+                    Text("Highest Rated")
                       .foregroundStyle(.white)
                       .font(.netflixSans(.medium, size: 17))
                     Spacer()

@@ -11,7 +11,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		831DB6672CDDCDB2001E2F73 /* BlossomMovie */ = {
+		831DB6672CDDCDB2001E2F73 /* watchman */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = watchman;
 			sourceTree = "<group>";
@@ -32,7 +32,7 @@
 		831DB65C2CDDCDB1001E2F73 = {
 			isa = PBXGroup;
 			children = (
-				831DB6672CDDCDB2001E2F73 /* BlossomMovie */,
+				831DB6672CDDCDB2001E2F73 /* watchman */,
 				831DB6662CDDCDB2001E2F73 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -40,7 +40,7 @@
 		831DB6662CDDCDB2001E2F73 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				831DB6652CDDCDB2001E2F73 /* BlossomMovie.app */,
+				831DB6652CDDCDB2001E2F73 /* watchman.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,9 +48,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		831DB6642CDDCDB1001E2F73 /* BlossomMovie */ = {
+		831DB6642CDDCDB1001E2F73 /* watchman */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 831DB6732CDDCDB2001E2F73 /* Build configuration list for PBXNativeTarget "BlossomMovie" */;
+			buildConfigurationList = 831DB6732CDDCDB2001E2F73 /* Build configuration list for PBXNativeTarget "watchman" */;
 			buildPhases = (
 				831DB6612CDDCDB1001E2F73 /* Sources */,
 				831DB6622CDDCDB1001E2F73 /* Frameworks */,
@@ -61,7 +61,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				831DB6672CDDCDB2001E2F73 /* BlossomMovie */,
+				831DB6672CDDCDB2001E2F73 /* watchman */,
 			);
 			name = watchman;
 			packageProductDependencies = (
@@ -99,7 +99,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				831DB6642CDDCDB1001E2F73 /* BlossomMovie */,
+				831DB6642CDDCDB1001E2F73 /* watchman */,
 			);
 		};
 /* End PBXProject section */
@@ -322,7 +322,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		831DB6732CDDCDB2001E2F73 /* Build configuration list for PBXNativeTarget "BlossomMovie" */ = {
+		831DB6732CDDCDB2001E2F73 /* Build configuration list for PBXNativeTarget "watchman" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				831DB6742CDDCDB2001E2F73 /* Debug */,

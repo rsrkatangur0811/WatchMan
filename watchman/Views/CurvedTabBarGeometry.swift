@@ -3,28 +3,27 @@ import SwiftUI
 @available(iOS 26.0, *)
 struct CurvedTabBarGeometry {
     /// Generates a path for a floating, curved tab bar.
-    /// - Parameter rect: The bounding rectangle for the tab bar.
-    /// - Returns: A path describing the shape of the tab bar.
-    /// - Parameter extraCurve: Additional height to add to the arch (default 0).
-    ///   Use positive values to make the curve sharper/steeper.
+    /// This path is intended to be STROKED to create the tab bar width.
     static func pathForCurvedTabBar(in rect: CGRect) -> Path {
         var path = Path()
         
         // We inset by 32 (half of the 64 stroke width) to ensure the 
-        // round caps fit inside the rect.
-        let inset: CGFloat = 32
+        // round caps fit inside the rect horizontally.
+        let inset: CGFloat = 43
         
-        // Curve parameters
-        // We revert to the Quadratic Curve for stability.
-        // We use an offset of 20. 
-        // This is higher than original (14) to avoid "flat top",
-        // but lower than the spikey version (28) to avoid "arrow head".
-        let startPoint = CGPoint(x: rect.minX + inset, y: rect.midY + 12) 
-        let endPoint = CGPoint(x: rect.maxX - inset, y: rect.midY + 12)
-        let controlPoint = CGPoint(x: rect.midX, y: rect.midY - 20)
+        let availableWidth = rect.width - (inset * 2)
+        // Radius is half the available width
+        let radius = availableWidth / 2
         
-        path.move(to: startPoint)
-        path.addQuadCurve(to: endPoint, control: controlPoint)
+        // Center the arc so the "feet" (endpoints) are at rect.maxY
+        // Arc spans 270 degrees: 135 (Bottom Left) -> 45 (Bottom Right) ccw
+        // Height of "feet" from center is radius * sin(45 degrees)
+        let feetOffset = radius * sin(45 * .pi / 180)
+        let center = CGPoint(x: rect.midX, y: rect.maxY - feetOffset)
+        
+        // Draw 75% Circle Arc (270 degrees)
+        // 135 degrees (Bottom Left) to 45 degrees (Bottom Right) clockwise: false (swiping over top)
+        path.addArc(center: center, radius: radius, startAngle: .degrees(135), endAngle: .degrees(45), clockwise: false)
         
         return path
     }

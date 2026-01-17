@@ -29,6 +29,15 @@ struct AttributeResultsView: View {
       case .rating: return "star"
       }
     }
+
+    var apiValue: String {
+      switch self {
+      case .defaults, .popularity: return "popularity.desc"
+      case .name: return "original_title.asc"
+      case .releaseDate: return "primary_release_date.desc"
+      case .rating: return "vote_average.desc"
+      }
+    }
   }
 
   @State private var selectedSort: SortOption = .defaults
@@ -43,19 +52,6 @@ struct AttributeResultsView: View {
   @Namespace private var heroTransition
   @State private var selectedTitle: Title?
   @State private var tappedSourceID: String = ""
-
-  var sortedTitles: [Title] {
-    switch selectedSort {
-    case .defaults, .popularity:
-      return titles // Trust API order to prevent jumping
-    case .name:
-      return titles.sorted { ($0.title ?? $0.name ?? "") < ($1.title ?? $1.name ?? "") }
-    case .releaseDate:
-      return titles.sorted { ($0.releaseDate ?? "") > ($1.releaseDate ?? "") }
-    case .rating:
-      return titles.sorted { ($0.voteAverage ?? 0) > ($1.voteAverage ?? 0) }
-    }
-  }
 
   var body: some View {
     ZStack {
@@ -72,7 +68,7 @@ struct AttributeResultsView: View {
           Section {
             let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 3)
             LazyVGrid(columns: columns, spacing: 12) {
-              ForEach(sortedTitles.filter { $0.posterPath != nil && !$0.posterPath!.isEmpty }) {
+              ForEach(titles.filter { $0.posterPath != nil && !$0.posterPath!.isEmpty }) {
                 title in
                 let sourceID = "attrResult_\(title.id ?? 0)"
                 PosterCard(
@@ -85,7 +81,7 @@ struct AttributeResultsView: View {
                   selectedTitle = title
                 }
                 .onAppear {
-                  if title.id == sortedTitles.last?.id && hasMorePages && !isFetchingMore {
+                  if title.id == titles.last?.id && hasMorePages && !isFetchingMore {
                     Task { await loadMoreContent() }
                   }
                 }
@@ -133,11 +129,20 @@ struct AttributeResultsView: View {
         }
       }
     }
-    .onChange(of: isMovies) { _, _ in
-      // Reset and reload
+    .onChange(of: selectedSort) { _, _ in
+      let impact = UIImpactFeedbackGenerator(style: .light)
+      impact.impactOccurred()
       titles = []
       currentPage = 1
       hasMorePages = true
+      isFetchingMore = false
+      fetchTitles()
+    }
+    .onChange(of: isMovies) { _, _ in
+      titles = []
+      currentPage = 1
+      hasMorePages = true
+      isFetchingMore = false
       fetchTitles()
     }
     .task {
@@ -159,6 +164,9 @@ struct AttributeResultsView: View {
     guard !isFetchingMore else { return }
     isFetchingMore = true
 
+    // For rating sort, require minimum votes to avoid spam
+    let minVotes: Int? = selectedSort == .rating ? 200 : nil
+
     do {
       var fetched: [Title] = []
       let media = isMovies ? "movie" : "tv"
@@ -169,6 +177,8 @@ struct AttributeResultsView: View {
           for: media,
           by: "discover",
           originCountry: attributeValue,
+          voteCountMin: minVotes,
+          sortBy: selectedSort.apiValue,
           page: currentPage
         )
       case .language:
@@ -176,6 +186,8 @@ struct AttributeResultsView: View {
           for: media,
           by: "discover",
           originalLanguage: attributeValue,
+          voteCountMin: minVotes,
+          sortBy: selectedSort.apiValue,
           page: currentPage
         )
       }
