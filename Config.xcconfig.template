@@ -1,0 +1,11 @@
+// Copy this file to Config.xcconfig and fill in your API keys
+// NEVER commit Config.xcconfig with real keys!
+
+// TMDB API Key - Get from https://www.themoviedb.org/settings/api
+TMDB_API_KEY = your_tmdb_api_key_here
+
+// OMDB API Key - Get from https://www.omdbapi.com/apikey.aspx
+OMDB_API_KEY = your_omdb_api_key_here
+
+// YouTube API Key - Get from https://console.cloud.google.com/apis/credentials
+YOUTUBE_API_KEY = your_youtube_api_key_here
