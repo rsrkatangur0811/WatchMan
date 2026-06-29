@@ -25,6 +25,9 @@ final class LetterboxdSyncClient {
       diskCapacity: 100 * 1024 * 1024
     )
     config.requestCachePolicy = .returnCacheDataElseLoad
+    config.timeoutIntervalForRequest = 15
+    config.timeoutIntervalForResource = 30
+    config.httpMaximumConnectionsPerHost = 20
     self.session = URLSession(configuration: config)
   }
 

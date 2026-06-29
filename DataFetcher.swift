@@ -12,6 +12,9 @@ struct DataFetcher {
       diskCapacity: 200 * 1024 * 1024
     )
     config.requestCachePolicy = .returnCacheDataElseLoad
+    config.timeoutIntervalForRequest = 15
+    config.timeoutIntervalForResource = 30
+    config.httpMaximumConnectionsPerHost = 20
     return URLSession(configuration: config)
   }()
 

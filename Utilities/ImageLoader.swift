@@ -10,12 +10,20 @@ class ImageLoader: ObservableObject {
   private var cancellable: AnyCancellable?
   private static let cache = NSCache<NSURL, UIImage>()
 
+  private static let session: URLSession = {
+    let config = URLSessionConfiguration.default
+    config.timeoutIntervalForRequest = 15
+    config.timeoutIntervalForResource = 30
+    config.httpMaximumConnectionsPerHost = 40
+    return URLSession(configuration: config)
+  }()
+
   static func cachedImage(for url: URL) async throws -> UIImage {
     if let cached = cache.object(forKey: url as NSURL) {
       return cached
     }
 
-    let (data, _) = try await URLSession.shared.data(from: url)
+    let (data, _) = try await session.data(from: url)
     guard let image = UIImage(data: data) else {
       throw URLError(.cannotDecodeContentData)
     }
@@ -33,7 +41,7 @@ class ImageLoader: ObservableObject {
     if isLoading { return }
     isLoading = true
 
-    cancellable = URLSession.shared.dataTaskPublisher(for: url)
+    cancellable = Self.session.dataTaskPublisher(for: url)
       .map { UIImage(data: $0.data) }
       .replaceError(with: nil)
       .receive(on: DispatchQueue.main)
